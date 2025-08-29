@@ -13,7 +13,7 @@ if not GEMINI_API_KEY:
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-def generate_raw_subtitles(file_obj, model="gemini-2.5-flash"):
+def generate_raw_subtitles(file_obj, model="gemini-2.5-pro"):
     try:
         # Prepare the prompt
         base_prompt = "Give me subtitles for this video clip in SRT format, Focus on dialogue and important sound effects."

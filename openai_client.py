@@ -20,7 +20,7 @@ def call_openai(raw_subtiles):
 You are a professional subtitle corrector.
 
 Input: raw subtitles (may have wrong indices, grammar, stacked sound effects, or malformed timestamps).  
-Output: only a corrected `.srt` file.
+Output: only corrected subtitles file.
 
 Rules (strictly follow):
 
@@ -39,7 +39,7 @@ Rules (strictly follow):
    - Indices are sequential
    - No overlapping timestamps
    - Proper formatting
-8. Output **only** the corrected subtitles content.No ```srt ```. No explanations, no extra text.
+8. Output **only** the corrected subtitles content. No ```srt ```. No explanations, no extra text.
 
 Example:
 

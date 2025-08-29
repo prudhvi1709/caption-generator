@@ -1,8 +1,8 @@
-# Caption Generator
+# 🎬 Caption Generator
 
 A powerful AI-driven subtitle generation tool that creates accurate, professional subtitles for video files using Google's Gemini AI and OpenAI for post-processing refinement.
 
-## Features
+## ✨ Features
 
 - **Multimodal Analysis**: Leverages both audio and visual content for maximum subtitle accuracy
 - **Professional Quality**: Generates industry-standard SRT subtitles with proper formatting
@@ -12,7 +12,7 @@ A powerful AI-driven subtitle generation tool that creates accurate, professiona
 - **Sound Effect Detection**: Intelligently identifies and labels important audio cues
 - **Visual Context**: Incorporates on-screen text and visual elements into subtitles
 
-## Installation
+## 📦 Installation
 
 ### Prerequisites
 
@@ -23,24 +23,24 @@ A powerful AI-driven subtitle generation tool that creates accurate, professiona
 
 ### Setup
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/Yadav-Aayansh/caption-generator.git
 cd caption-generator
 ```
 
-2. Install dependencies using uv:
+2. **Install dependencies using uv:**
 ```bash
 uv sync
 ```
 
-3. Create a `.env` file in the project root:
+3. **Create a `.env` file in the project root:**
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 OPENAI_API_KEY=your_openrouter_api_key_here
 ```
 
-### Getting API Keys
+### 🔑 Getting API Keys
 
 #### Google Gemini API Key
 1. Visit [Google AI Studio](https://aistudio.google.com/)
@@ -54,15 +54,14 @@ OPENAI_API_KEY=your_openrouter_api_key_here
 3. Generate an API key from your dashboard
 4. Add the key to your `.env` file
 
-## Usage
+## 🚀 Usage
 
 Generate subtitles for a video file:
-
 ```bash
 uv run main.py <video_file> -srt <output_subtitle_file>
 ```
 
-### Examples
+### 💡 Examples
 
 ```bash
 # Generate subtitles for a movie
@@ -75,7 +74,7 @@ uv run main.py presentation.mov -srt presentation_captions.srt
 uv run main.py webinar.webm -srt webinar_subtitles.srt
 ```
 
-## How It Works
+## ⚙️ How It Works
 
 1. **Video Preprocessing**: The tool automatically compresses videos larger than 480p to optimize processing time and API costs
 2. **Upload & Processing**: Videos are securely uploaded to Google's servers for analysis
@@ -83,7 +82,7 @@ uv run main.py webinar.webm -srt webinar_subtitles.srt
 4. **Refinement**: OpenAI processes the raw subtitles to fix formatting, grammar, and timing issues
 5. **Output**: Clean, professional SRT files ready for use
 
-## Supported Video Formats
+## 📼 Supported Video Formats
 
 - MP4 (.mp4, .m4v)
 - MPEG (.mpeg, .mpg)
@@ -96,4 +95,8 @@ uv run main.py webinar.webm -srt webinar_subtitles.srt
 
 ---
 
+<div align="center">
+  
 **Made with ❤️ by [Aayansh Yadav](https://github.com/Yadav-Aayansh)**
+
+</div>

@@ -2,8 +2,8 @@ import os
 import ffmpeg
 import mimetypes
 import time
+import base64
 from pathlib import Path
-from gemini_client import client
 
 supported_formats = {
     '.mp4': 'video/mp4',
@@ -72,37 +72,25 @@ def upload_video_file(file_path):
     file_path = Path(file_path)
     mime_type = get_mime_type(str(file_path))
     
-    print(f"Uploading {file_path.name} ({mime_type})...")
+    print(f"Processing {file_path.name} ({mime_type})...")
     
     try:
+        # Read the video file and encode it as base64
         with open(file_path, 'rb') as f:
-            file_obj = client.files.upload(
-                file=f,
-                config={
-                    "display_name": file_path.name,
-                    "mime_type": mime_type,
-                }
-            )
+            video_data = f.read()
+            video_base64 = base64.b64encode(video_data).decode('utf-8')
         
-        print("File uploaded. Waiting for processing...")
+        # Create a file object that contains the video data
+        file_obj = type('FileObject', (), {
+            'name': file_path.name,
+            'mime_type': mime_type,
+            'uri': f"data:{mime_type};base64,{video_base64}",
+            'data': video_data,
+            'base64_data': video_base64
+        })()
         
-        # Wait for file processing
-        max_wait_time = 300
-        wait_time = 0
-        
-        while file_obj.state.name == "PROCESSING" and wait_time < max_wait_time:
-            time.sleep(5)
-            wait_time += 5
-            file_obj = client.files.get(name=file_obj.name)
-            print(f"Processing... ({wait_time}s)")
-        
-        if file_obj.state.name == "FAILED":
-            raise Exception("File processing failed")
-        elif file_obj.state.name == "PROCESSING":
-            raise Exception("File processing timed out")
-        
-        print("File processed successfully!")
+        print("Video file processed successfully!")
         return file_obj
         
     except Exception as e:
-        raise Exception(f"Error uploading file: {str(e)}")
+        raise Exception(f"Error processing file: {str(e)}")

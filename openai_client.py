@@ -6,13 +6,13 @@ load_dotenv()
 
 API_KEY = os.environ.get("LLMFOUNDRY_API_KEY")
 if not API_KEY:
-    raise ValueError("OPENAI_API_KEY is not set in environment variables.")
+    raise ValueError("LLMFOUNDRY_API_KEY is not set in environment variables.")
 
 url = "https://llmfoundry.straive.com/openai/v1/chat/completions"
 
 def call_openai(raw_subtiles):
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {API_KEY}:caption-generator",
         "Content-Type": "application/json",
     }
 

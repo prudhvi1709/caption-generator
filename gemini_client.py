@@ -1,36 +1,28 @@
 import os
-from google import genai
-from google.genai import types
+import requests
+import json
 from openai_client import call_openai
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY is not set in environment variables.")
+LLMFOUNDRY_TOKEN = os.environ.get("LLMFOUNDRY_TOKEN")
+LLMFOUNDRY_PROJECT = os.environ.get("LLMFOUNDRY_PROJECT", "my-test-project")
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+if not LLMFOUNDRY_TOKEN:
+    raise ValueError("LLMFOUNDRY_TOKEN is not set in environment variables.")
+
+LLMFOUNDRY_BASE_URL = "https://llmfoundry.straive.com/gemini/v1beta"
 
 def generate_raw_subtitles(file_obj, model="gemini-2.5-pro"):
     try:
         # Prepare the prompt
         base_prompt = "Give me subtitles for this video clip in SRT format, Focus on dialogue and important sound effects."
         
-        contents = [
-            types.Content(
-                role="user",
-                parts=[
-                    types.Part.from_uri(
-                        file_uri=file_obj.uri,
-                        mime_type=file_obj.mime_type
-                    ),
-                    types.Part.from_text(text=base_prompt)
-                ],
-            ),
-        ]
-
+        # LLM Foundry supports multimodal inputs with base64-encoded data
+        # We'll include the video as an inline data part
+        
         system_prompt = """
 You are a professional audiovisual subtitle generator.
 
@@ -68,32 +60,64 @@ NEVER MISS Point 3 - Non-speech & Visual Cues
 Output natural, professional subtitles that meet industry standards and enhance comprehension, without adding speaker names.
 """
         
-        generate_content_config = types.GenerateContentConfig(
-            thinking_config = types.ThinkingConfig(
-                thinking_budget=24576,
-            ),
-            system_instruction=[
-                types.Part.from_text(text=system_prompt),
+        # Prepare the request payload for LLM Foundry with multimodal input
+        parts = [
+            {
+                "text": f"{system_prompt}\n\n{base_prompt}"
+            }
+        ]
+        
+        # Add video data if available
+        if hasattr(file_obj, 'base64_data') and file_obj.base64_data:
+            parts.append({
+                "inline_data": {
+                    "mime_type": file_obj.mime_type,
+                    "data": file_obj.base64_data
+                }
+            })
+        
+        payload = {
+            "contents": [
+                {
+                    "parts": parts
+                }
             ],
-            temperature=1,
+            "generationConfig": {
+                "temperature": 1.0,
+                "maxOutputTokens": 8192
+            }
+        }
+        
+        # Set up headers with LLM Foundry authentication
+        headers = {
+            "Authorization": f"Bearer {LLMFOUNDRY_TOKEN}:{LLMFOUNDRY_PROJECT}",
+            "Content-Type": "application/json"
+        }
+        
+        print("Generating subtitles.... Please wait...")
+        
+        # Make the API request to LLM Foundry
+        response = requests.post(
+            f"{LLMFOUNDRY_BASE_URL}/models/{model}:generateContent",
+            headers=headers,
+            json=payload,
+            timeout=300  # 5 minute timeout for video processing
         )
         
-        print("Generating subtitles...")
+        if response.status_code != 200:
+            raise Exception(f"LLM Foundry API error: {response.status_code} - {response.text}")
         
-        # Generate subtitles
-        response = client.models.generate_content(
-            model=model,
-            contents=contents,
-            config=generate_content_config,
-        )
-        raw_subtitles = response.text
+        response_data = response.json()
         
-        # Clean up: delete the uploaded file
-        try:
-            client.files.delete(name=file_obj.name)
-            print("Temporary file cleaned up")
-        except:
-            pass  # Ignore cleanup errors
+        # Extract the generated text from the response
+        if "candidates" in response_data and len(response_data["candidates"]) > 0:
+            candidate = response_data["candidates"][0]
+            if "content" in candidate and "parts" in candidate["content"]:
+                raw_subtitles = candidate["content"]["parts"][0]["text"]
+            else:
+                raise Exception("Unexpected response format from LLM Foundry")
+        else:
+            raise Exception("No candidates in LLM Foundry response")
 
         print(raw_subtitles)
         return raw_subtitles

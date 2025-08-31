@@ -1,6 +1,6 @@
 # 🎬 Caption Generator
 
-A powerful AI-driven subtitle generation tool that creates accurate, professional subtitles for video files using Google's Gemini AI and OpenAI for post-processing refinement.
+A powerful AI-driven subtitle generation tool that creates accurate, professional subtitles for video files using LLM Foundry's Gemini API and OpenAI for post-processing refinement.
 
 ## ✨ Features
 
@@ -18,8 +18,7 @@ A powerful AI-driven subtitle generation tool that creates accurate, professiona
 
 - Python 3.13 or higher
 - FFmpeg installed on your system
-- Google Gemini API key
-- OpenAI API key (via OpenRouter)
+- LLM Foundry API token
 
 ### Setup
 
@@ -35,24 +34,28 @@ uv sync
 ```
 
 3. **Create a `.env` file in the project root:**
+   - Copy `env.example` to `.env`
+   - Or create a new `.env` file with the following content:
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
-OPENAI_API_KEY=your_openrouter_api_key_here
+LLMFOUNDRY_API_KEY=your_llmfoundry_token_here
 ```
 
 ### 🔑 Getting API Keys
 
-#### Google Gemini API Key
-1. Visit [Google AI Studio](https://aistudio.google.com/)
-2. Create a new project or select an existing one
-3. Generate an API key from the API section
-4. Add the key to your `.env` file
+#### LLM Foundry API Token
+1. Visit [LLM Foundry](https://llmfoundry.straive.com/)
+2. Create an account or sign in
+3. Create a new project or select an existing one
+4. Generate an API token
+5. Add the token and project name to your `.env` file
 
-#### OpenRouter API Key
-1. Visit [OpenRouter](https://openrouter.ai/)
-2. Sign up for an account
-3. Generate an API key from your dashboard
-4. Add the key to your `.env` file
+#### Testing the Integration
+After setting up your environment variables, you can test the LLM Foundry integration:
+```bash
+uv run test_llmfoundry.py
+```
+
+
 
 ## 🚀 Usage
 
@@ -77,9 +80,9 @@ uv run main.py webinar.webm -srt webinar_subtitles.srt
 ## ⚙️ How It Works
 
 1. **Video Preprocessing**: The tool automatically compresses videos larger than 480p to optimize processing time and API costs
-2. **Upload & Processing**: Videos are securely uploaded to Google's servers for analysis
-3. **AI Generation**: Gemini AI analyzes both audio and visual content to generate initial subtitles
-4. **Refinement**: OpenAI processes the raw subtitles to fix formatting, grammar, and timing issues
+2. **Upload & Processing**: Videos are processed locally and sent to LLM Foundry's servers for analysis
+3. **AI Generation**: LLM Foundry's Gemini API analyzes both audio and visual content to generate initial subtitles
+4. **Refinement**: LLM Foundry processes the raw subtitles to fix formatting, grammar, and timing issues
 5. **Output**: Clean, professional SRT files ready for use
 
 ## 📼 Supported Video Formats

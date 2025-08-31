@@ -55,11 +55,15 @@ Guidelines:
 - Use square brackets for meaningful sounds: [MUSIC PLAYING], [GUNSHOT], [DOOR CREAKS], [APPLAUSE]
 - Add plot-relevant visual cues only if essential: [ON-SCREEN TEXT: The End], [LIGHTNING FLASHES]
 - Keep cues concise, descriptive, professional
+- If multiple sounds in same block, separate each with a line break.
 
 4. Consistency & Coverage
 - Ensure full subtitle coverage of the video
 - Maintain consistent style and formatting
 - Never skip or alter timestamp format
+
+IMP: When ever there is an background noise, always have it in the subtitles, Even with minute details (e.g., [BIRD CHIRPING], [WIND RUSTLING], ...) - should be understandable and felt by deaf persons as well !
+NEVER MISS Point 3 - Non-speech & Visual Cues
 
 Output natural, professional subtitles that meet industry standards and enhance comprehension, without adding speaker names.
 """

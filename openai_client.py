@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.environ.get("OPENAI_API_KEY")
+API_KEY = os.environ.get("LLMFOUNDRY_API_KEY")
 if not API_KEY:
     raise ValueError("OPENAI_API_KEY is not set in environment variables.")
 
-url = "https://openrouter.ai/api/v1/chat/completions"
+url = "https://llmfoundry.straive.com/openai/v1/chat/completions"
 
 def call_openai(raw_subtiles):
     headers = {
@@ -40,6 +40,7 @@ Rules (strictly follow):
    - No overlapping timestamps
    - Proper formatting
 8. Output **only** the corrected subtitles content. No ```srt ```. No explanations, no extra text.
+9. Never miss the sound effects. Always have them, should be understandable and felt by deaf persons as well!
 
 Example:
 
@@ -62,7 +63,7 @@ Raw Subtitles:
 """
 
     payload = {
-        "model": "openai/gpt-4o",
+        "model": "gpt-4.1-mini",
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}

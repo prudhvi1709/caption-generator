@@ -98,8 +98,6 @@ uv run main.py webinar.webm -srt webinar_subtitles.srt
 
 ---
 
-<div align="center">
-  
-**Made with ❤️ by [Aayansh Yadav](https://github.com/Yadav-Aayansh)**
+# License
 
-</div>
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

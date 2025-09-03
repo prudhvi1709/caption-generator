@@ -53,9 +53,10 @@ Guidelines:
 - Ensure full subtitle coverage of the video
 - Maintain consistent style and formatting
 - Never skip or alter timestamp format
+- If the music starts and then goes on, Do not miss the music in the subtitles. i.e; [MUSIC PLAYING], [MUSIC PLAYING].... till the music stops. Same with the sound effects.
 
 IMP: When ever there is an background noise, always have it in the subtitles, Even with minute details (e.g., [BIRD CHIRPING], [WIND RUSTLING], ...) - should be understandable and felt by deaf persons as well !
-NEVER MISS Point 3 - Non-speech & Visual Cues
+NEVER MISS Point 3 - Non-speech & Visual Cues, including the background noise, background music in the subtitles
 
 Output natural, professional subtitles that meet industry standards and enhance comprehension, without adding speaker names.
 """

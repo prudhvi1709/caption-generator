@@ -101,3 +101,6 @@ uv run main.py webinar.webm -srt webinar_subtitles.srt
 # License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+> **This is Demo. contains no confidential data/IP**
